@@ -37,10 +37,9 @@ You need to manually load the `.fetch.json` with a `Package.use` command. Be sur
 
 ### Examples
 
-* https://github.com/mizzao/meteor-sharejs/blob/master/ace.fetch.json downloads the ace editor for the meteor-sharejs package.
-* https://github.com/mizzao/meteor-jqueryui/blob/master/jqueryui.fetch.json downloads the jquery-ui javascript and css for the meteor-jqueryui package.
+* https://github.com/mizzao/meteor-jqueryui/blob/master/jqueryui.fetch.json downloads the jquery-ui javascript, css, and theme images for the meteor-jqueryui package.
 
 ### Notes
 
-* It would be nice to figure out good ways to have this package support non-JS and non-CSS content, especially certain types of assets and dependencies.
-* We can probably make the package smarter in figuring out when not to re-download files. Right now, when the file is part of a Meteor app, file downloads happen every time something changes.
+* It would be nice to figure out clean ways to support non-JS and non-CSS content of different forms. Currently only binary is supported.
+* We can probably make the package smarter in figuring out when not to re-download files. Right now, when the file is part of a Meteor app, file downloads happen every time something changes in a package that contains a `.fetch.json` file. This is okay for standalone packages that only grab files, but less so for apps or packages that integrate other functions.
