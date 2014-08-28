@@ -1,9 +1,0 @@
-{
-    "name": "build-fetcher",
-    "description": "downloads remote code to be served as part of a meteor app",
-    "homepage": "https://github.com/mizzao/meteor-build-fetcher",
-    "author": "Andrew Mao  (http://www.andrewmao.net)",
-    "version": "0.2.0",
-    "git": "https://github.com/mizzao/meteor-build-fetcher.git",
-    "packages": {}
-}
