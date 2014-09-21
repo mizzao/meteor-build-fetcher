@@ -1,3 +1,7 @@
+## vNEXT
+
+* Migrate package to Meteor 0.9 API.
+
 ## v0.2.0
 
 * Better support for grabbing binary files (such as images) and adding them as assets.

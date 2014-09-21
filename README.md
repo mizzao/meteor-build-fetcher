@@ -29,15 +29,34 @@ Meteor will treat a `foo.fetch.json` file as a normal part of the build process.
 
 ### In regular apps
 
-Just put a `foo.fetch.json` file whereever you want, and Javascript files will magically appear as part of your app when it is built. If it is in the `client` directory, it will appear in the client manifest, and so on for the server.
+First, install the package:
+
+```
+$ meteor add mizzao:build-fetcher
+```
+
+Then, just put a `foo.fetch.json` file whereever you want, and Javascript files will magically appear as part of your app when it is built. If it is in the `client` directory, it will appear in the client manifest, and so on for the server.
 
 ### In smart packages
 
-You need to manually load the `.fetch.json` with a `Package.use` command. Be sure to specify `client` or `server`, or leave it out if you want both.
+```js
+Package.onUse(function (api) {
+  api.use("mizzao:build-fetcher@VERSION");
+
+  // ... other stuff
+});
+```
+
+where `VERSION` is the usually the latest available version of this package.
+
+Then, you will need to manually load the `.fetch.json` with a `Package.use`
+command. Be sure to specify `client` or `server`, or leave it out if you want
+both.
 
 ### Examples
 
 * https://github.com/mizzao/meteor-jqueryui/blob/master/jqueryui.fetch.json downloads the jquery-ui javascript, css, and theme images for the meteor-jqueryui package.
+* https://github.com/mizzao/meteor-openlayers/blob/master/openlayers.fetch.json downloads the JS and CSS files for the OpenLayers mapping library.
 
 ### Notes
 
