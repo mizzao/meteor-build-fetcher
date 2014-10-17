@@ -5,7 +5,7 @@ Package.describe({
   git: 'https://github.com/mizzao/meteor-build-fetcher.git'
 });
 
-Package._transitional_registerBuildPlugin({
+Package.registerBuildPlugin({
     name: "fetcher",
     use: [ 'http' ],
     sources: [

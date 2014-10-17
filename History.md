@@ -1,6 +1,6 @@
 ## vNEXT
 
-* Migrate package to Meteor 0.9 API.
+* Migrate package to Meteor 0.9 API, including new build plugin API in 0.9.4.
 
 ## v0.2.0
 
