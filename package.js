@@ -7,7 +7,10 @@ Package.describe({
 
 Package.registerBuildPlugin({
     name: "fetcher",
-    use: [ 'ecmascript', 'http' ],
+    use: [
+      'ecmascript@0.1.4',
+      'http@1.1.1'
+    ],
     sources: [
         'fetcher.js'
     ],
@@ -15,7 +18,7 @@ Package.registerBuildPlugin({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom("1.2.0.1");
+  api.versionsFrom("1.2.0.2");
 
-  api.use('isobuild:compiler-plugin');
+  api.use('isobuild:compiler-plugin@1.0.0');
 });
