@@ -1,40 +1,59 @@
-function endsWith(str, suffix) {
-    return str.indexOf(suffix, str.length - suffix.length) !== -1;
-}
-
 var Future = Npm.require('fibers/future');
 var request = Npm.require('request');
 
 /*
- Create a handler for fetch.json files
- This is convenient because it will only ever get the file once
- unless the .fetch.json target changes
- */
-class Fetcher {
+  We use CachingCompiler to download the file, which
+  will only ever get the file once
+  unless the .fetch.json target changes:
+  https://atmospherejs.com/meteor/caching-compiler
 
-  fetch(file) {
+  This means we have to store the downloaded stuff.
+ */
+class Fetcher extends CachingCompiler {
+
+  constructor() {
+    super({
+      compilerName: "build-fetcher",
+      defaultCacheSize: 1024 * 1024 * 10
+    });
+  }
+
+  getCacheKey(inputFile) {
+    return inputFile.getSourceHash();
+  }
+
+  compileOneFile(file) {
     const targets = JSON.parse(file.getContentsAsString());
+
+    // compileResult is just an array of {func, arg} to call.
+    const compileResult = [];
 
     for( var i = 0; i < targets.length; i++ ) {
       var target = targets[i];
       console.log("Downloading " + target.url + " to " + target.file);
 
-      if( endsWith(target.file, ".js") ) {
+      if( target.file.endsWith(".js") ) {
         var output = HTTP.get(target.url).content;
 
-        file.addJavaScript({
-          path: target.file,
-          data: output,
-          sourcePath: target.file,
-          bare: target.bare || false
+        compileResult.push({
+          func: "addJavaScript",
+          arg: {
+            path: target.file,
+            data: output,
+            sourcePath: target.file,
+            bare: target.bare || false
+          }
         });
       }
-      else if( endsWith(target.file, ".css") ) {
+      else if( target.file.endsWith(".css") ) {
         var output = HTTP.get(target.url).content;
 
-        file.addStylesheet({
-          path: target.file,
-          data: output
+        compileResult.push({
+          func: "addStylesheet",
+          arg: {
+            path: target.file,
+            data: output
+          }
         });
       }
       else {
@@ -55,24 +74,33 @@ class Fetcher {
         });
 
         // addAsset takes a buffer, which we get from the request
-        file.addAsset({
-          path: target.file,
-          data: fut.wait()
+        compileResult.push({
+          func: "addAsset",
+          arg: {
+            path: target.file,
+            data: fut.wait()
+          }
         });
       }
     }
+
+    return compileResult;
   }
 
-  processFilesForTarget(files) {
-    files.forEach( (file) => {
-      this.fetch(file);
-    });
+  // Add up length of all cached data pieces.
+  compileResultSize(compileResult) {
+    return compileResult.reduce( (val, el) => {
+      return val + el.arg.data.length;
+    }, 0);
+  }
+
+  addCompileResult(inputFile, compileResult) {
+    for (item of compileResult) {
+      inputFile[item.func](item.arg);
+    }
   }
 }
 
 Plugin.registerCompiler({
-  extensions: [ "fetch.json" ],
-  filenames: []
-}, function() {
-  return new Fetcher();
-});
+  extensions: [ "fetch.json" ]
+}, () => new Fetcher() );

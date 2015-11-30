@@ -1,7 +1,7 @@
 Package.describe({
   name: "mizzao:build-fetcher",
   summary: 'Downloads remote code to be served as part of a Meteor app',
-  version: '0.3.0',
+  version: '0.3.1',
   git: 'https://github.com/mizzao/meteor-build-fetcher.git'
 });
 
@@ -9,7 +9,8 @@ Package.registerBuildPlugin({
     name: "fetcher",
     use: [
       'ecmascript@0.1.4',
-      'http@1.1.1'
+      'http@1.1.1',
+      'caching-compiler@1.0.0'
     ],
     sources: [
         'fetcher.js'

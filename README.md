@@ -60,5 +60,6 @@ both.
 
 ### Notes
 
+* The package uses Meteor's `caching-compiler` to download files only when the 
+contents of the `.fetch.json` file change.
 * It would be nice to figure out clean ways to support non-JS and non-CSS content of different forms. Currently only binary is supported.
-* We can probably make the package smarter in figuring out when not to re-download files. Right now, when the file is part of a Meteor app, file downloads happen every time something changes in a package that contains a `.fetch.json` file. This is okay for standalone packages that only grab files, but less so for apps or packages that integrate other functions.

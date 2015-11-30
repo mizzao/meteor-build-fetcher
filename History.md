@@ -1,3 +1,7 @@
+## v0.3.1
+
+* Use the `caching-compiler` package to avoid unnecessary downloads. (#3) 
+
 ## v0.3.0
 
 * Support Meteor 1.2 and use new compiler plugin API.
