@@ -1,3 +1,7 @@
+## v0.3.2
+
+* Properly resurrect `Buffer`s from the cache. (#4) 
+
 ## v0.3.1
 
 * Use the `caching-compiler` package to avoid unnecessary downloads. (#3) 

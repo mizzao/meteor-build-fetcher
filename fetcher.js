@@ -95,7 +95,12 @@ class Fetcher extends CachingCompiler {
   }
 
   addCompileResult(inputFile, compileResult) {
-    for (item of compileResult) {
+    for (const item of compileResult) {
+      // If a buffer has been serialized to an array, make it back into a buffer
+      // https://github.com/mizzao/meteor-build-fetcher/issues/4
+      if( Array.isArray(item.arg.data) ) {
+        item.arg.data = new Buffer(item.arg.data);
+      }
       inputFile[item.func](item.arg);
     }
   }
